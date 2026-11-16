@@ -23,7 +23,7 @@ def test_owner_scoping_and_rent_ledger():
                 from datetime import date
                 lease=await a.post('/api/leases',json={'property_id':prop.json()['id'],'tenant_id':tenant.json()['id'],'monthly_rent':'12000.00','start_date':date.today().replace(day=1).isoformat()})
                 assert lease.status_code==201,lease.text
-                pay=await a.post('/api/payments',json={'lease_id':lease.json()['id'],'amount':'3000.00','paid_on':date.today().isoformat(),'method':'upi','note':'Demo payment only'})
+                pay=await a.post('/api/payments',json={'lease_id':lease.json()['id'],'amount':'3000.00','paid_on':date.today().isoformat(),'method':'upi','note':'Demo payment only','billing_month':date.today().strftime('%Y-%m')})
                 assert pay.status_code==201,pay.text
                 stats=(await a.get('/api/stats')).json()
                 assert stats['expected']=='12000.00' and stats['received']=='3000.00' and stats['outstanding']=='9000.00',stats
