@@ -33,19 +33,34 @@ These findings motivated the v0.2 changes.
 
 **CI results:** See [GitHub Actions](https://github.com/devanandha/rentwise-rental-management/actions).
 
-## v0.2 — manual retest still required
+## v0.2 — manually observed local walkthrough, 16 November 2026
 
-Using a **backup of the original local SQLite file**, test:
+The author shared screenshots of a local v0.2 instance with **fictional demonstration records**. The screenshots were examined during the walkthrough, but have not been added to this public repository. These observations should not be described as an independent technical assessment.
 
-- [ ] Review v0.1 payments and assign billing month via Rent ledger → Edit
-- [ ] Correct an expired lease's dates, without creating a duplicate
-- [ ] Record a ₹5,000 payment toward a ₹15,000 current-month rent bill and verify ₹10,000 balance
-- [ ] Record a payment in November allocated to December; November cash received changes but November rent allocation should not
-- [ ] Correct and void a mistaken payment; confirm the balance and Activity log update
+| Test | Observed result | Status |
+|---|---|---|
+| Start updated application | "Rent bills" and "Activity log" appeared in the sidebar | Observed |
+| Add fictional property and change its name | "Sunrise Residency" subsequently appeared in the lease billing table; author reported the Edit feature worked | Author-reported edit; final name independently visible in screenshot |
+| Create a fictional tenant and active lease | One monthly bill for Sunrise Residency / Rahul Kumar, rent ₹15,000, was shown | Observed |
+| Record November 2026 partial payment | Rent due ₹15,000; allocated ₹5,000; balance ₹10,000; unallocated ₹0; status "partial" | Observed |
+| Correct payment amount | The payment ledger showed **one** recorded payment of ₹7,000 allocated to 2026-11 | Observed |
+| Recalculate after correction | Rent due ₹15,000; allocated ₹7,000; balance ₹8,000; unallocated ₹0; status "partial" | Observed |
+| Check activity log | A `payment` / `corrected` event for record ID 1 appeared after the original `created` event | Observed |
+
+These manual checks support the narrow claim that the local prototype's **demonstrated** partial-payment calculation and correction flow functioned as expected with the sample data. They do not establish production-grade financial accuracy or real customer adoption.
+
+### Further manual checks still required
+
+- [ ] Restore the original v0.1 SQLite database from a backup and review legacy unallocated payments
+- [ ] Correct an expired lease's dates without creating a duplicate
+- [x] Record a ₹5,000 payment toward ₹15,000 rent and verify ₹10,000 balance (new fictional test dataset)
+- [ ] Record a payment in November allocated to December; confirm that November cash received changes but November's rent allocation does not
+- [x] Correct ₹5,000 to ₹7,000; verify ₹8,000 balance and a `corrected` activity entry
+- [ ] Void a payment and verify its effect on the rent balance and log
 - [ ] Check Rent bills for a different month
 - [ ] Inspect the interface at a narrower screen width and keyboard navigation
 
-All demo accounts and property details should be fictional. Do **not** expose real tenant information or passwords in screenshots.
+Do **not** expose real tenant information, credentials, or personal details in public screenshots.
 
 ## Portfolio use
 
