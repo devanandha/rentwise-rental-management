@@ -64,6 +64,10 @@ python -m pip install pytest httpx
 pytest -q
 ```
 
+## Sharing an online demo with reviewers
+
+See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for instructions to host a **synthetic-data-only** reviewer demo on a web service with persistent SQLite storage. The project has **not yet been deployed**. The guide documents environment variables and security limitations; online hosting alone does not establish independent user adoption.
+
 ## Security & privacy
 
 **Portfolio prototype only. Do not put real tenant details, payment information or sensitive IDs into this app.** Before a real pilot it needs a threat model, proper CSRF and abuse protections, password-reset and rate-limiting functionality, audit events, legal/privacy analysis, security review, HTTPS deployment and database backups. Demo with synthetic records only. Never commit `.env`, secrets or the local database.
