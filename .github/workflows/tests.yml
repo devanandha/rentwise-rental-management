@@ -20,3 +20,5 @@ jobs:
           python -m pip install -r requirements.txt pytest httpx
       - name: Run API tests
         run: pytest -q
+      - name: Check browser JavaScript syntax
+        run: node --check app/static/app.js
