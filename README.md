@@ -76,6 +76,10 @@ pytest -q
 4. Browser end-to-end tests, accessibility review, comprehensive schema migrations and export functionality.
 5. A tightly scoped pilot with a consenting landlord and anonymised usage feedback; consider prediction features only if appropriately evaluated.
 
+## Testing record
+
+See [TESTING_LOG.md](TESTING_LOG.md) for the manually observed v0.1 workflow, the problems identified, current automated checks and the v0.2 manual retest checklist. This is a record of prototype testing, not independent adoption or endorsement.
+
 ## Evidence / provenance
 
 | Claim | Evidence | Current status |
