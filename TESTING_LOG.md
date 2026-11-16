@@ -62,15 +62,16 @@ These manual checks support the narrow claim that the local prototype's **demons
 
 Do **not** expose real tenant information, credentials, or personal details in public screenshots.
 
-## Hosted Railway demo — manual verification, 16 November 2026
+## Hosted Railway demo — manual verification and redeploy regression, 16 November 2026
 
-A browser screenshot showed the hosted site at `https://rentwise-rental-management-production.up.railway.app` displaying RentWise v0.2 with a dashboard showing **one** fictional property. This confirms the website rendered an authenticated dashboard *at that moment*, but **does not establish that sign-out followed by sign-in worked**.
+A screenshot showed the hosted website at `https://rentwise-rental-management-production.up.railway.app` with RentWise v0.2, an authenticated session, and one fictional property. The author subsequently clarified this sequence:
 
-**Correction from the author:** The author subsequently clarified that they **were not able to sign in**. Therefore, **online reauthentication and persistence after signing out remain unverified**. The precise login failure and whether the local and hosted accounts were confused require investigation. Do not represent this as a successful login or session-retention test.
+1. **Before a later manual Railway redeploy:** They could sign out and sign back in successfully.
+2. **After the redeploy:** The previously working login no longer succeeded.
 
-**Not yet verified:** Reauthentication, persistence after a Railway restart/redeployment, multi-user testing, security hardening, or availability for external reviewers. The URL is publicly accessible, but this is a **fictional-data-only prototype** and must not be used for real tenant or financial data.
+This is a **reported regression across redeployment**. The exact error message, whether the account record remains present, and the application database path/volume/secret configuration have **not been confirmed**. A likely explanation is that the app used ephemeral or different storage across deployments, but this remains a hypothesis, not a verified root cause.
 
-Next step: diagnose the specific login response safely (do not share passwords), resolve it, and confirm a successful sign-out/sign-in before testing persistence over redeployment.
+**Do not mark persistent-storage testing as passed.** Verify the service's attached volume mount path is exactly `/data`; verify `RENTWISE_DATABASE_URL=sqlite:////data/rentwise.sqlite3` and a stable `RENTWISE_SESSION_SECRET` are present in the deployed environment; inspect the precise login error before any further redeploy. Do not delete the volume or use real customer data.
 
 ## Portfolio use
 
