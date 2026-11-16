@@ -76,9 +76,11 @@ pytest -q
 4. Browser end-to-end tests, accessibility review, comprehensive schema migrations and export functionality.
 5. A tightly scoped pilot with a consenting landlord and anonymised usage feedback; consider prediction features only if appropriately evaluated.
 
-## Testing record
+## Test evidence and academic review
 
-See [TESTING_LOG.md](TESTING_LOG.md) for the manually observed v0.1 workflow, the problems identified, current automated checks and the v0.2 manual retest checklist. This is a record of prototype testing, not independent adoption or endorsement.
+See [TESTING_LOG.md](TESTING_LOG.md) for the observed v0.1 and v0.2 manual workflows, including the ₹15,000 rent / ₹5,000 then ₹7,000 corrected-payment test, and remaining test cases. These are local prototype observations, not independent adoption or endorsement.
+
+The [academic technical review brief](ACADEMIC_REVIEW_BRIEF.md) explains the relationship to the 2022 undergraduate group project, gives a reproducible walkthrough, and lists questions for a referee to assess from their own first-hand knowledge. It is not a pre-written endorsement.
 
 ## Evidence / provenance
 
