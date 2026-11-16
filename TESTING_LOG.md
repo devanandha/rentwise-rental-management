@@ -62,6 +62,14 @@ These manual checks support the narrow claim that the local prototype's **demons
 
 Do **not** expose real tenant information, credentials, or personal details in public screenshots.
 
+## Hosted Railway demo — manual verification, 16 November 2026
+
+A browser screenshot showed the hosted site at `https://rentwise-rental-management-production.up.railway.app` displaying RentWise v0.2 with an account signed in and **one** fictional property in its dashboard. The author confirmed a successful **sign-out and sign-in** cycle with the same property still visible. This supports that the web deployment, authentication flow and stored record survived a browser session transition.
+
+**Not yet verified:** Whether the database persists after a Railway service restart or redeployment, correct behaviour under concurrent use, security hardening, or availability for external reviewers. The public URL exists, but this remains an **unsecured-for-production demonstration** and must not be used for real tenant or financial data.
+
+Next verification: make a backup/snapshot of the persistent volume if available, then redeploy the service and confirm the same fictional property remains present. Do not use live customer information.
+
 ## Portfolio use
 
 The 2022 graduation project was collaborative. This repository documents a **new, AI-assisted 2026 prototype**, technical progress and limited test results. The public repository and the author's manual test record do not, by themselves, show independent recognition or practical adoption. An external reviewer should evaluate the actual code or demonstration before signing any assessment.
