@@ -1,8 +1,8 @@
 # RentWise — Rental Management Prototype
 
-**Status: Functional local MVP (November 2026). Not deployed or independently validated. Not production-ready.**
+**Status: Local v0.2 prototype (November 2026). API regression tests run in GitHub Actions. Not deployed, independently validated or production-ready.**
 
-A new Python/FastAPI + SQLite web application demonstrating landlord-facing property, tenant, lease and rent-ledger workflows. The app has a responsive, custom dashboard and uses synthetic or user-entered local data.
+A new Python/FastAPI + SQLite web application demonstrating landlord-facing property, tenant, lease, billing-month and rent-ledger workflows. The app has a responsive, custom dashboard and uses synthetic or user-entered local data.
 
 ## Why this project exists
 
@@ -10,19 +10,26 @@ This is an **independently maintained successor project** inspired by a 2022 fin
 
 This project was initially scaffolded with AI assistance and should be developed, evaluated and documented through subsequent engineering work. Do not represent generated code alone as independent innovation or external recognition.
 
-## Implemented in this MVP
+## Implemented in v0.2
 
 - Local signup and login; password hashes using PBKDF2 and signed session cookies
-- Owner-scoped property and tenant records
-- Lease records linking a tenant, property, dates and monthly rent
-- Manual/offline rent payment recording with method, date and note
-- Dashboard showing estimated expected, recorded and outstanding amounts for the current month
-- Responsive browser UI with empty states, forms and activity tables
-- API documentation at `/docs` and automated API smoke tests
+- Owner-scoped property and tenant records, with editing and guarded deletion
+- Lease creation and editing; prevent overlapping leases for single-unit properties
+- Manually record offline rent payments, assign a billing month, and correct the amount, date, month, method or note
+- Void payment records with a reason, without deleting their historical record
+- Computed monthly rent bills: rent charged, allocated payments, remaining balance and overpayment credit by lease
+- Distinguish cash recorded during a calendar month from payments allocated to that rent month
+- Local activity log for create/edit/delete/correct/void events (not a tamper-proof audit)
+- Responsive browser interface, monthly billing tab and API documentation at `/docs`
+- Automated regression tests for access isolation, overlapping leases, corrections and payment month allocation
 
-**Not implemented:** actual payment gateway, reminders, bank reconciliation, recurring invoices, rent proration, automatic late fees, rent forecasting, production hosting, identity verification, audit trails, PDF receipts or tenant self-service. **Payments are records only; no money is moved.**
+**Not implemented:** actual payment gateway, automatic reminders, bank reconciliation, numbered tax invoices, PDF statements/receipts, refund accounting, proration, late fees, forecasting, production hosting, identity verification or tenant self-service. **Payments are records only; no money is moved.**
 
-The monthly dashboard is a **simplified operational indicator**, not an invoice or accounting statement: it assumes full monthly rent for each lease active in that month and subtracts payments recorded in that month regardless of which billing period they cover. It does not account for credits, deposits, rent proration or refunds.
+**Rent-bill calculation:** The app charges the **full monthly rent** when a lease overlaps any part of that month (no proration). Payments have an explicit `billing_month` and reduce that month's bill, even if paid in another month. Cash received uses the actual payment date. Remaining bill balances do not go negative; excess is shown separately as an unapplied credit and is **not** automatically carried to another month. It is a demonstration ledger, not an accounting statement or tax invoice.
+
+**Legacy migration:** Payments recorded in v0.1 did not store a rent month. When opening v0.2 with the existing SQLite database, those payments remain intact but **unallocated**. Open **Rent ledger → Edit** to assign each one to its correct rent month; until then it is excluded from billed-month allocations. Never assume the payment date is the month it was intended to cover.
+
+**Record restrictions:** A property or tenant with leases cannot be deleted; a lease with payment records cannot be deleted. For multi-unit properties, unit-specific occupancy is not yet modelled, so overlapping tenancies require manual review. The activity log is held locally and is not tamper-proof.
 
 ## Getting started
 
@@ -40,6 +47,16 @@ Open http://127.0.0.1:8000 and create your own local account. No demo credential
 
 For a stable local login cookie across restarts, set `RENTWISE_SESSION_SECRET` to a strong secret environment variable. For deployment on HTTPS, set `RENTWISE_HTTPS_ONLY=1`. The default session secret is ephemeral and sessions reset upon server restart.
 
+### Upgrading an existing v0.1 local test installation
+
+1. Stop the running server with **Ctrl+C** in Command Prompt.
+2. **Back up `rentwise.sqlite3`** (in the old project folder) somewhere safe before making changes.
+3. Download the latest GitHub ZIP and replace the **source files** (`app/`, `tests/`, `README.md`, etc.) in the existing project folder. **Do not overwrite/delete `rentwise.sqlite3` or your existing `.venv` environment.** An alternative is to extract a fresh project and copy your backed-up SQLite database into that new folder.
+4. Restart the app with the same `python -m uvicorn app.main:app --reload` command. At startup, the local SQLite schema receives extra columns without clearing old records.
+5. In **Rent ledger**, assign every old payment to its actual rent month using **Edit**. Verify **Rent bills** and **Overview** afterward.
+
+For Windows Command Prompt, if your virtual environment remains one folder above the project, use `..\.venv\Scripts\python.exe -m uvicorn app.main:app --reload` from the folder containing `requirements.txt`.
+
 Run the automated tests:
 
 ```bash
@@ -53,19 +70,19 @@ pytest -q
 
 ## Potential next milestones (not yet completed)
 
-1. Proper rental invoicing and allocation of partial payments to billing periods.
-2. Unit-level occupancy, tenant invitations and role separation.
-3. Data export, transaction audit log, negative/error-path tests and accessibility review.
-4. A tightly scoped pilot with a consenting landlord, documented permission and anonymised usage feedback.
-5. Only then, consider independently evaluated prediction/automation features if appropriate data exists.
+1. Numbered invoices, due dates, reminders and printable receipts (with appropriate legal and tax review).
+2. Unit-level occupancy, refunds, deposit handling and explicit credits carried to other billing months.
+3. Stronger security: CSRF protection, rate limiting, production hosting controls and backups.
+4. Browser end-to-end tests, accessibility review, comprehensive schema migrations and export functionality.
+5. A tightly scoped pilot with a consenting landlord and anonymised usage feedback; consider prediction features only if appropriately evaluated.
 
 ## Evidence / provenance
 
 | Claim | Evidence | Current status |
 |---|---|---|
 | Original 2022 group project | Undergraduate presentation and university transcript | Historic academic work (separate from this code) |
-| 2026 successor implementation | This repository's commit history and source files | Prototype; not yet reviewed by Dr Regitha |
-| Functional tests | `tests/test_api.py` | Local test results, not third-party validation |
+| 2026 successor implementation | This repository's commit history and source files | v0.2 local prototype; not yet reviewed by Dr Regitha |
+| Functional tests | `tests/test_api.py`, `tests/test_v02.py`, GitHub Actions | Automated regression checks; not a third-party audit |
 | Independent adoption or impact | Pilot logs, feedback, external code reviews | **Not yet established** |
 
 **Global Talent documentation note:** A public repository can document technical progression, but is not on its own independent recognition. Dr Regitha can describe her *actual 2022 assessment* of the group project. Any remarks about this 2026 successor should only be included after she has personally reviewed its code or demonstration, and should accurately state what she saw.
