@@ -22,3 +22,5 @@ jobs:
         run: pytest -q
       - name: Check browser JavaScript syntax
         run: node --check app/static/app.js
+      - name: Verify Docker deployment image builds
+        run: docker build --tag rentwise-reviewer-ci .
