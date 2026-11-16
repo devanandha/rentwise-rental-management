@@ -6,17 +6,23 @@ RentWise currently runs locally at `http://127.0.0.1:8000`. That address is only
 
 **Scope:** This is a temporary, **fictional-data-only reviewer demo**. RentWise v0.2 is not ready for real tenants, financial transactions, or open public registration at scale. Additional controls (CSRF protection, login rate limits, account recovery, privacy review, tested backups and production migrations) are needed before production use.
 
+## Railway build troubleshooting (16 November 2026)
+
+The first Railway deployment attempt failed while Railpack was **preparing** the build. The exact underlying build-log error was not provided, so the root cause is **unconfirmed**. A root-level [Dockerfile](Dockerfile) has now been committed to use an explicit Python 3.12 image and startup command.
+
+1. Open the existing `rentwise-rental-management` service in Railway (do not create another project).
+2. Under **Settings → Build**, confirm the builder is **Dockerfile** and the path is `Dockerfile`. Railway normally auto-detects a root Dockerfile; if the service still shows **Railpack**, manually choose Dockerfile, save and redeploy.
+3. Do not set a separate Start Command unless necessary. The Dockerfile already starts `uvicorn app.main:app` and reads Railway's `PORT` automatically.
+4. Watch the deployment logs. A **successful build** does not yet mean accounts or data will persist. Set up the `/data` volume and variables below **before** enabling a public domain.
+5. If the Dockerfile build fails, open **Build Logs** and inspect the final red error, rather than repeatedly rebuilding blindly.
+
 ## Suggested platform: Railway, web service + mounted storage volume
 
 Documentation: https://railway.com/guides/fastapi and https://docs.railway.com/volumes
 
 1. Create or log into a Railway account: https://railway.com .
 2. Start a **New Project → Deploy from GitHub repo** and connect/select `devanandha/rentwise-rental-management`. Keep it private/unshared while setting it up. Railway may request account verification or a plan.
-3. In the service **Settings → Deploy**, set the **Start Command**:
-   ```sh
-   uvicorn app.main:app --host 0.0.0.0 --port $PORT
-   ```
-   The app's ASGI target is `app.main:app`, **not** `main:app`. The command must bind to Railway's provided port.
+3. In **Settings → Build**, use **Dockerfile** (the repository contains a root-level `Dockerfile`). The Dockerfile includes the start command, `uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}`. **Leave Railway's separate Start Command empty** unless it has already been overridden; if so, remove the override to use the Dockerfile's command.
 4. Add **one persistent volume** to the service, mounted at **`/data`**. This is essential for preserving SQLite data after restarts/deploys. Mounting at `/data` is independent of the code directory.
 5. In the service's **Variables**, add:
    - `RENTWISE_DATABASE_URL` = `sqlite:////data/rentwise.sqlite3`
