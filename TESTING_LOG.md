@@ -64,11 +64,13 @@ Do **not** expose real tenant information, credentials, or personal details in p
 
 ## Hosted Railway demo — manual verification, 16 November 2026
 
-A browser screenshot showed the hosted site at `https://rentwise-rental-management-production.up.railway.app` displaying RentWise v0.2 with an account signed in and **one** fictional property in its dashboard. The author confirmed a successful **sign-out and sign-in** cycle with the same property still visible. This supports that the web deployment, authentication flow and stored record survived a browser session transition.
+A browser screenshot showed the hosted site at `https://rentwise-rental-management-production.up.railway.app` displaying RentWise v0.2 with a dashboard showing **one** fictional property. This confirms the website rendered an authenticated dashboard *at that moment*, but **does not establish that sign-out followed by sign-in worked**.
 
-**Not yet verified:** Whether the database persists after a Railway service restart or redeployment, correct behaviour under concurrent use, security hardening, or availability for external reviewers. The public URL exists, but this remains an **unsecured-for-production demonstration** and must not be used for real tenant or financial data.
+**Correction from the author:** The author subsequently clarified that they **were not able to sign in**. Therefore, **online reauthentication and persistence after signing out remain unverified**. The precise login failure and whether the local and hosted accounts were confused require investigation. Do not represent this as a successful login or session-retention test.
 
-Next verification: make a backup/snapshot of the persistent volume if available, then redeploy the service and confirm the same fictional property remains present. Do not use live customer information.
+**Not yet verified:** Reauthentication, persistence after a Railway restart/redeployment, multi-user testing, security hardening, or availability for external reviewers. The URL is publicly accessible, but this is a **fictional-data-only prototype** and must not be used for real tenant or financial data.
+
+Next step: diagnose the specific login response safely (do not share passwords), resolve it, and confirm a successful sign-out/sign-in before testing persistence over redeployment.
 
 ## Portfolio use
 
