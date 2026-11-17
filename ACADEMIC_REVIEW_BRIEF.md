@@ -1,11 +1,11 @@
 # RentWise — academic technical review brief
 
-**Prepared:** 16 November 2026  
+**Prepared:** 16 November 2026 · Updated: 17 November 2026  
 **Audience:** An academic or independent technical reviewer, including Dr Regitha if she agrees to review the 2026 work.
 
 ## What is being reviewed
 
-**RentWise v0.2** is a new locally run Python/FastAPI + SQLite rental-management prototype. It implements landlord accounts, property and tenant records, lease records, rent-month allocations, payment correction and voiding, monthly billing summaries, and a local activity log.
+**RentWise v0.2** is a new Python/FastAPI + SQLite rental-management prototype, running both locally and as a hosted fictional-data-only demo. It implements landlord accounts, property and tenant records, lease records, rent-month allocations, payment correction and voiding, monthly billing summaries, and a local activity log.
 
 Repository: https://github.com/devanandha/rentwise-rental-management
 
@@ -14,8 +14,11 @@ Repository: https://github.com/devanandha/rentwise-rental-management
 - [Manual test observations and remaining test cases](TESTING_LOG.md)
 - [Technical limitations and setup](README.md)
 - [Project provenance](PROJECT_EVIDENCE.md)
+- [Preliminary security review](SECURITY_REVIEW.md)
+- [Guided 10-minute review agenda](REVIEWER_DEMO_GUIDE.md)
+- [Hosted fictional-data demo](https://rentwise-rental-management-production-4594abfb.up.railway.app)
 
-**Development status:** Local research/portfolio prototype, not a deployed service or production accounting product. The project was initially scaffolded with AI assistance and has been iterated through test feedback. No claims are made about external adoption, revenue or independently measured impact.
+**Development status:** Local and Railway-hosted research/portfolio prototype, **not** a production accounting product. Browser sign-in and a fictional saved property were demonstrated. The author reported that a fictional property remained after an automatic Railway redeployment on 17 November 2026. This is a limited persistence check, not an uptime, security or accounting certification. The project was initially scaffolded with AI assistance and has been iterated through test feedback. No claims are made about external adoption, revenue or independently measured impact.
 
 ## Connection to the 2022 undergraduate project
 
@@ -32,7 +35,7 @@ RentWise's 2026 code is **not** the 2022 source code, and the original project s
 | Functional outline | Proposed owner, property, tenant and rental-payment modules | Implemented local forms, accounts, leases, offline payment records and monthly rent bills |
 | Data and business rules | Conceptual workflow in project slides | Lease overlap check for single-unit properties, owner-scoped records, rent-month allocation and corrections |
 | Evaluation evidence | Project mark in official transcript | Public tests and limited local screenshot-based walkthrough |
-| Current limitations | Implementation level cannot be established from slides alone | No deployment, no gateway, incomplete accounting features and security hardening required |
+| Current limitations | Implementation level cannot be established from slides alone | Public demo is hosted; no payment gateway, incomplete accounting features, unrestricted sign-up, login-abuse and CSRF controls outstanding |
 
 This comparison does not establish that the 2026 prototype is commercially innovative or used by real landlords.
 
@@ -46,7 +49,7 @@ A useful, independent review could address:
 4. Compared with the student's undergraduate work, what concrete technical progress is evident, and what limitations remain?
 5. What is the referee's own balanced assessment of the applicant's potential for further contribution to applied digital technology?
 
-A reviewer can use the source, run the tests, or request a live demonstration. They should not describe a review they have not performed.
+For now, prefer **a screen-shared demonstration** rather than asking a reviewer to register with a personal email or password: the preliminary security review identifies outstanding high-priority controls. A reviewer can inspect the source, run the tests, or request a guided live demonstration. They should not describe a review they have not performed.
 
 ## Suggested short hands-on demonstration
 

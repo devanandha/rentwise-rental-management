@@ -1,6 +1,6 @@
 # RentWise — Rental Management Prototype
 
-**Status: Local v0.2 prototype (November 2026). API regression tests run in GitHub Actions. Not deployed, independently validated or production-ready.**
+**Status: RentWise v0.2 prototype (November 2026), demonstrated locally and hosted as a fictional-data-only Railway demo. Automated API checks run in GitHub Actions. Not independently validated, security-hardened or production-ready.**
 
 A new Python/FastAPI + SQLite web application demonstrating landlord-facing property, tenant, lease, billing-month and rent-ledger workflows. The app has a responsive, custom dashboard and uses synthetic or user-entered local data.
 
@@ -66,7 +66,9 @@ pytest -q
 
 ## Sharing an online demo with reviewers
 
-See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for instructions to host a **synthetic-data-only** reviewer demo on a web service with persistent SQLite storage. The project has **not yet been deployed**. The guide documents environment variables and security limitations; online hosting alone does not establish independent user adoption.
+A **fictional-data-only hosted demo** is running at [RentWise on Railway](https://rentwise-rental-management-production-4594abfb.up.railway.app) in the `authentic-mercy` Railway project. A separate earlier deployment under `joyful-liberation` experienced storage errors; do not confuse the two. The author observed a saved fictional property survive an automatic Railway redeployment on **17 November 2026**. Online hosting alone does not establish independent user adoption or adequate security.
+
+See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for setup notes and [SECURITY_REVIEW.md](SECURITY_REVIEW.md) for the preliminary source-security findings. **Do not invite users to register or enter personal details yet.** For independent academic feedback, use the [screen-shared review guide](REVIEWER_DEMO_GUIDE.md).
 
 ## Security & privacy
 
@@ -85,6 +87,8 @@ See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for instructions to host a **synt
 See [TESTING_LOG.md](TESTING_LOG.md) for the observed v0.1 and v0.2 manual workflows, including the ₹15,000 rent / ₹5,000 then ₹7,000 corrected-payment test, and remaining test cases. These are local prototype observations, not independent adoption or endorsement.
 
 The [academic technical review brief](ACADEMIC_REVIEW_BRIEF.md) explains the relationship to the 2022 undergraduate group project, gives a reproducible walkthrough, and lists questions for a referee to assess from their own first-hand knowledge. It is not a pre-written endorsement.
+
+The [guided reviewer demonstration](REVIEWER_DEMO_GUIDE.md) is intended for screen sharing with fictional data only. See [the preliminary security review](SECURITY_REVIEW.md) for unaddressed public sign-up, CSRF, login throttling and recovery limitations.
 
 ## Evidence / provenance
 
