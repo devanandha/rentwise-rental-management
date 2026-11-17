@@ -73,6 +73,20 @@ This is a **reported regression across redeployment**. The exact error message, 
 
 **Do not mark persistent-storage testing as passed.** Verify the service's attached volume mount path is exactly `/data`; verify `RENTWISE_DATABASE_URL=sqlite:////data/rentwise.sqlite3` and a stable `RENTWISE_SESSION_SECRET` are present in the deployed environment; inspect the precise login error before any further redeploy. Do not delete the volume or use real customer data.
 
+## Hosted Railway demo — successful session test, 17 November 2026
+
+The author accessed the distinct Railway project **`authentic-mercy`**, generated a public HTTPS domain for the service, and showed a screenshot of the RentWise v0.2 dashboard at:
+
+https://rentwise-rental-management-production-4594abfb.up.railway.app
+
+The author reported successfully signing out and signing back into the hosted account. A screenshot taken afterward displayed **1 saved fictional property** in the dashboard. This is evidence of a **successful browser-session login and saved-property retrieval test** in that specific deployment. The screenshot itself has not been added to this repository.
+
+The author showed the volume settings in `authentic-mercy` with the volume mounted at **`/data`** and confirmed the database URL `sqlite:////data/rentwise.sqlite3` was configured. However, **persistence through a service restart or redeployment has not been tested successfully** on this deployment; do not claim otherwise.
+
+An **earlier deployment under a different Railway project, `joyful-liberation`,** experienced a SQLite startup error `sqlite3.OperationalError: unable to open database file`, and earlier logins were disrupted around redeployment/configuration changes. These projects must not be conflated.
+
+**Security and evidence limitations:** This remains an AI-assisted, fictional-data-only prototype without external penetration testing, verified production controls, real user adoption, or an independent code review. Avoid uploading real tenant or payment details. Do not risk further redeployment merely to make a portfolio claim.
+
 ## Portfolio use
 
 The 2022 graduation project was collaborative. This repository documents a **new, AI-assisted 2026 prototype**, technical progress and limited test results. The public repository and the author's manual test record do not, by themselves, show independent recognition or practical adoption. An external reviewer should evaluate the actual code or demonstration before signing any assessment.
