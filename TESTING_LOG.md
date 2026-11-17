@@ -1,6 +1,6 @@
 # RentWise verification log
 
-**Updated:** 16 November 2026  
+**Updated:** 17 November 2026  
 **Project:** A new 2026 local prototype inspired by a 2022 undergraduate **group** project (not its original source code).
 
 ## v0.1 — local, observed through the author's demonstration
@@ -86,6 +86,16 @@ The author showed the volume settings in `authentic-mercy` with the volume mount
 An **earlier deployment under a different Railway project, `joyful-liberation`,** experienced a SQLite startup error `sqlite3.OperationalError: unable to open database file`, and earlier logins were disrupted around redeployment/configuration changes. These projects must not be conflated.
 
 **Security and evidence limitations:** This remains an AI-assisted, fictional-data-only prototype without external penetration testing, verified production controls, real user adoption, or an independent code review. Avoid uploading real tenant or payment details. Do not risk further redeployment merely to make a portfolio claim.
+
+## Hosted Railway demo — verified persistence and backup checks, 17 November 2026
+
+For the correct Railway project, `authentic-mercy`, the author supplied a deployment screenshot showing an **ACTIVE / deployment successful** result after a documentation commit was automatically deployed. The author then confirmed that the same **one fictional property remained visible** in RentWise, demonstrating persistence across that specific redeployment.
+
+The author disabled automatic deployment afterward (Railway Settings displayed `Auto deploy is disabled`).
+
+A backup was created using the SQLite Online Backup API in the Railway Console, returning `Backup check: ok`. The separate `rentwise-backup-2026-11-17.sqlite3` file was downloaded and inspected in read-only mode. It was **52 KB**, `PRAGMA integrity_check` returned `ok`, and it contained **one account, one fictional property and one audit event**; tenants, leases and payments were empty. Backup file contents, emails, IDs, and hashes are **not** committed to GitHub.
+
+**Scope:** A successful single redeployment and backup integrity check does not establish disaster-recovery reliability. A restore to a disposable database copy, a backup schedule, and security/abuse testing remain incomplete. The hosted app must remain a fictional-data demonstration.
 
 ## Portfolio use
 
