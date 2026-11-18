@@ -6,6 +6,7 @@ from pathlib import Path
 
 import httpx
 from sqlalchemy import create_engine
+from sqlalchemy.pool import NullPool
 
 from app import main
 
@@ -13,7 +14,7 @@ from app import main
 def test_rent_month_corrections_and_audit():
     async def scenario():
         with tempfile.TemporaryDirectory() as directory:
-            main.engine = create_engine("sqlite:///" + str(Path(directory) / "rentwise-test.sqlite3"), connect_args={"check_same_thread": False})
+            main.engine = create_engine("sqlite:///" + str(Path(directory) / "rentwise-test.sqlite3"), connect_args={"check_same_thread": False}, poolclass=NullPool)
             main.Base.metadata.create_all(main.engine)
             transport = httpx.ASGITransport(app=main.app)
             async with httpx.AsyncClient(transport=transport, base_url="http://local") as owner:
@@ -76,7 +77,7 @@ def test_edit_delete_and_legacy_migration():
     async def scenario():
         with tempfile.TemporaryDirectory() as directory:
             path=str(Path(directory)/"rentwise-test.sqlite3")
-            main.engine=create_engine("sqlite:///"+path,connect_args={"check_same_thread":False})
+            main.engine=create_engine("sqlite:///"+path,connect_args={"check_same_thread": False}, poolclass=NullPool)
             main.Base.metadata.create_all(main.engine)
             transport=httpx.ASGITransport(app=main.app)
             async with httpx.AsyncClient(transport=transport,base_url="http://local") as user:
