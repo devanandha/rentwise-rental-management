@@ -3,6 +3,8 @@ import asyncio
 import os
 from pathlib import Path
 import tempfile
+from sqlalchemy import create_engine
+from sqlalchemy.pool import NullPool
 
 import httpx
 
@@ -10,7 +12,14 @@ import httpx
 def test_owner_scoping_and_rent_ledger():
     with tempfile.TemporaryDirectory() as folder:
         os.environ["RENTWISE_DATABASE_URL"] = "sqlite:///" + str(Path(folder) / "rentwise-test.sqlite3")
-        from app.main import app
+        from app import main
+        main.engine = create_engine(
+            os.environ["RENTWISE_DATABASE_URL"],
+            connect_args={"check_same_thread": False},
+            poolclass=NullPool,
+        )
+        main.Base.metadata.create_all(main.engine)
+        app = main.app
         async def scenario():
             transport = httpx.ASGITransport(app=app)
             async with httpx.AsyncClient(transport=transport,base_url="http://testserver") as a:
@@ -36,4 +45,7 @@ def test_owner_scoping_and_rent_ledger():
                 assert forbidden.status_code==404
             async with httpx.AsyncClient(transport=transport,base_url="http://testserver") as anon:
                 assert (await anon.get('/api/properties')).status_code==401
-        asyncio.run(scenario())
+        try:
+            asyncio.run(scenario())
+        finally:
+            main.engine.dispose()
